@@ -20,7 +20,7 @@ COPY --from=builder /usr/local/bin/uvicorn /usr/local/bin/uvicorn
 # Copy application source code and model artifacts
 COPY src/ ./src/
 COPY models/ ./models/
-COPY .env.example ./ .env.example  # example only; real .env will be mounted or provided
+COPY .env.example ./.env.example  # example only; real .env will be mounted or provided
 
 EXPOSE 8000
 
