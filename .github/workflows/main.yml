@@ -1,0 +1,51 @@
+# .github/workflows/main.yml
+name: ML API CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository code
+        uses: actions/checkout@v3
+
+      - name: Set up Python environment
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.9"
+
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run unit tests with Pytest
+        run: pytest tests/
+
+      - name: Build Docker image for ML API
+        run: docker build -t my-ml-api:${{ github.sha }} .
+
+      - name: Log in to Docker Hub (or GitHub Container Registry) Optional/Demo
+        run: echo "Skipping Docker Login for demonstration purposes or if using local registry."
+
+      - name: Push Docker image to registry Optional/Demo
+        run: echo "Skipping Docker Push for demonstration purposes."
+
+      - name: Save prediction examples
+        run: |
+          mkdir -p predictions
+          echo '{"class_label": "cat", "probabilities": [0.8, 0.2]}' > predictions/example_prediction.json
+          echo '{"class_label": "dog", "probabilities": [0.1, 0.9]}' > predictions/another_prediction.json
+          # Example: could curl a real API and save output here
+
+      - name: Upload prediction examples as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: prediction-examples
+          path: predictions/
