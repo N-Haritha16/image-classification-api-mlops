@@ -15,7 +15,7 @@ jobs:
 
     steps:
       - name: Checkout repository code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Python environment
         uses: actions/setup-python@v4
@@ -45,7 +45,7 @@ jobs:
           # Example: could curl a real API and save output here
 
       - name: Upload prediction examples as artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: prediction-examples
           path: predictions/
